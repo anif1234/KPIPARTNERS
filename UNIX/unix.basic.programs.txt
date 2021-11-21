@@ -1,0 +1,187 @@
+////////////////1 READ AND SUM OF NUMBERS /////////////////////////////
+
+#!/bin/bash
+echo "enter a num"
+read n1
+echo "enter a num"
+read n2
+#n1=10
+#n2=20
+sum=$(($n1+$n2))
+echo $sum
+
+
+
+///////////////2 EVEN OR ODD  ////////////////////////////////
+
+#!/bin/bash
+echo "enter a num ?"
+read n1
+if [ $((n2 % 2)) -eq 0 ]
+then
+        echo "true"
+else
+        echo "false"
+fi
+
+
+
+//////////////3 COMPARING STRINGS BY USING IFELSE  //////////////////////////////////////
+
+#!/bin/bash
+echo "enter a pattern"
+read s
+echo "enter a string"
+read s1
+
+if [ "$s" = "$s1" ]
+then
+        echo "pattern matched"
+else
+        echo "pattern not matched"
+fi
+
+
+//////////////4 FORLOOP   ////////////////////////////
+
+#!/bin/bash
+for i in 1 2 3 4 5
+do
+        echo $i
+done
+
+FORLOOP FOR ARRAY STRING 
+
+#!/bin/bash
+#echo "enter a data?"
+str="this is an example"
+for n in $str
+do
+        echo $n
+done
+
+******FORLOOP CHECKING WEATHER A NUM IS EVEN AND LESSTHAN 50***********
+
+#!/bin/bash
+
+#v=$((2 % 2))
+#echo $v
+
+echo "enter a num ?"
+read n
+if [ $(($n % 2)) -eq 0 ] && [ $n -lt 50 ]
+then
+        echo "even and lesserthan 50"
+else
+        echo "odd and greater than 50"
+fi
+
+****ARRAY OF NUMS BY USING FORLOOP TO CHECK EVEN OR ODD **************
+
+#!/bin/bash
+nums="1 2 3 4 4 5"
+for n in $nums
+do
+        if [ $(($n % 2)) -eq 0 ]
+        then
+                echo "even number: $n"
+        else
+                echo "odd number: $n"
+        fi
+done
+
+/////////////////5 ARRAYS  ///////////////////////
+
+#!/bin/bash
+
+arr1=( red green blue )
+for i in "${arr1[@]}"
+do
+     echo $i
+done
+
+
+#!/bin/bash
+
+arr=( a b c )
+for i in "${arr[@]}"
+do
+        echo $i
+done
+
+
+/////////////////6 SHELL FUNCTION  ////////////////////////
+ 
+#!/bin/bash
+func () {
+        echo "first function $1 $2"
+}
+
+func kpi company
+
+///////READING PARAMETERS AND PASSING THROUGH FUN
+
+#!/bin/bash
+echo "enter a string"
+read s
+echo "enter a string"
+read s1
+fun() {
+        echo "$s $s1"
+}
+fun $s $s1
+
+
+////////////////////7 READING ARRAY ELEMENTS AND ITERATE/////////////////////////////////
+
+#!/bin/bash
+
+echo "array of lements"
+read line
+arr=(${line})
+for i in ${arr[@]}
+do
+        echo $i
+done
+
+////////////////// 8 BREAK CONDITION ///////////////////////////////////////////
+
+#!/bin/bash
+
+arr=( 1 2 3 4 5 6 7 8 9 10 )
+for i in ${arr[@]}
+do
+        if [ $i = 5 ]
+        then
+                break
+        else
+                echo $i
+        fi
+done
+
+///////////////////// 9 CONTINUE ////////////////////////////////////////
+
+#!/bin/bash
+arr=( 1 2 3 4 5 6 7 8 9 10 )
+for i in ${arr[@]}
+do
+        if [ $((i % 2)) = 0 ]
+        then
+                continue
+        else
+                echo $i
+        fi
+done
+           
+
+////////////  SWITCH ///////////////////////////////////////
+
+#!/bin/bash
+word="mr.spy"
+case "$word" in "anif")
+        echo "word in anif";;
+"abble")
+        echo "word in abble";;
+"mr.spy")
+        echo "word in mr.spy";;
+esac  
