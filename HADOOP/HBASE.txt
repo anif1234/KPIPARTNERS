@@ -1,0 +1,50 @@
+hbase(main):004:0> put 'emp', '1', 'details: eid, ename, sal', '101, Richard, 2000'
+0 row(s) in 0.1600 seconds
+
+hbase(main):005:0> scan 'emp'
+ROW                                                    COLUMN+CELL                                                                                                                                                  
+ 1                                                     column=details: eid, ename, sal, timestamp=1641835438013, value=101, Richard, 2000                                                                           
+1 row(s) in 0.0640 seconds
+
+hbase(main):006:0> hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator="," -Dimporttsv.columns="HBASE_ROW_KEY,details:eid,details:ename,details:sal" emp /user/cloudera/empFile.csv
+SyntaxError: (hbase):6: syntax error, unexpected tIDENTIFIER
+
+hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator="," -Dimporttsv.columns="HBASE_ROW_KEY,details:eid,details:ename,details:sal" emp /user/cloudera/empFile.csv
+                                                                                                                                                        ^
+
+hbase(main):007:0> put 'emp', '1', 'details:eid, ename, sal', '101, Richard, 3000'
+0 row(s) in 0.0160 seconds
+
+hbase(main):008:0> scan 'emp'
+ROW                                                    COLUMN+CELL                                                                                                                                                  
+ 1                                                     column=details: eid, ename, sal, timestamp=1641835438013, value=101, Richard, 2000                                                                           
+ 1                                                     column=details:eid, ename, sal, timestamp=1641835909729, value=101, Richard, 3000                                                                            
+1 row(s) in 0.0090 seconds
+
+hbase(main):009:0> hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator="," -Dimporttsv.columns="HBASE_ROW_KEY,details:eid,details:ename,details:sal" emp/user/cloudera/empFile.csv
+SyntaxError: (hbase):9: syntax error, unexpected tIDENTIFIER
+
+hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator="," -Dimporttsv.columns="HBASE_ROW_KEY,details:eid,details:ename,details:sal" emp/user/cloudera/empFile.csv
+                                                                                                                                                        ^
+
+hbase(main):010:0> hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator="," -Dimporttsv.columns="HBASE_ROW_KEY,details:eid,details:ename,details:sal"  /user/cloudera/empFile.csv
+Display all 499 possibilities? (y or n) 
+hbase(main):010:0> hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator="," -Dimporttsv.columns="HBASE_ROW_KEY,details:eid,details:ename,details:sal" details /user/cloudera/empFile.csv
+SyntaxError: (hbase):10: syntax error, unexpected tIDENTIFIER
+
+hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator="," -Dimporttsv.columns="HBASE_ROW_KEY,details:eid,details:ename,details:sal" details /user/cloudera/empFile.csv
+                                                                                                                                                            ^
+
+hbase(main):011:0> hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator="," -Dimporttsv.columns="HBASE_ROW_KEY,details:eid,details:ename,details:sal" emp /user/cloudera/empFile.csv
+SyntaxError: (hbase):11: syntax error, unexpected tIDENTIFIER
+
+hbase org.apache.hadoop.hbase.mapreduce.ImportTsv -Dimporttsv.separator="," -Dimporttsv.columns="HBASE_ROW_KEY,details:eid,details:ename,details:sal" emp /user/cloudera/empFile.csv
+                                                                                                                                                        ^
+
+hbase(main):012:0> describe 'emp'
+Table emp is ENABLED                                                                                                                                                                                                
+emp                                                                                                                                                                                                                 
+COLUMN FAMILIES DESCRIPTION                                                                                                                                                                                         
+{NAME => 'details', BLOOMFILTER => 'ROW', VERSIONS => '1', IN_MEMORY => 'false', KEEP_DELETED_CELLS => 'FALSE', DATA_BLOCK_ENCODING => 'NONE', TTL => 'FOREVER', COMPRESSION => 'NONE', MIN_VERSIONS => '0', BLOCKCA
+CHE => 'true', BLOCKSIZE => '65536', REPLICATION_SCOPE => '0'}                                                                                                                                                      
+1 row(s) in 0.0420 seconds
