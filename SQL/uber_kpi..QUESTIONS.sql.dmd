@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<OSDM_Design class="oracle.dbtools.crest.model.design.Design" name="uber_kpi..QUESTIONS.sql" id="8265ACD7-F31C-C028-5E76-5B23D44A454C" version="3.5">
+<createdBy>AbbleAnif</createdBy>
+<createdTime>2021-12-29 16:15:31 UTC</createdTime>
+<ownerDesignName>uber_kpi..QUESTIONS.sql</ownerDesignName>
+<capitalNames>false</capitalNames>
+<designId>8265ACD7-F31C-C028-5E76-5B23D44A454C</designId>
+</OSDM_Design>
