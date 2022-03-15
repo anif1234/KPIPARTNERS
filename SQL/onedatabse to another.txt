@@ -1,0 +1,16 @@
+SQL> conn ABBLE
+Enter password:
+Connected.
+SQL> grant select on kpi_stg_channel to ANIF;
+
+Grant succeeded.
+
+SQL> conn ANIF
+Enter password:
+Connected.
+SQL> insert into kpi_channel_dim(date_created,is_record_inactive,last_modified_date,list_id,list_item_name)
+  2  (select * from ABBLE.kpi_stg_channel);
+insert into kpi_channel_dim(date_created,is_record_inactive,last_modified_date,list_id,list_item_name)
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("ANIF"."KPI_CHANNEL_DIM"."KPI_DW_SKEY")

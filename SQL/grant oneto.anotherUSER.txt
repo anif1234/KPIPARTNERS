@@ -1,0 +1,43 @@
+
+SQL> conn abble
+Enter password:
+Connected.
+
+
+SQL> grant select on kpi_stg_classes to ANIF;
+
+Grant succeeded.
+
+SQL> grant select on kpi_stg_departments to ANIF;
+
+Grant succeeded.
+
+SQL> grant select on kpi_stg_item_merchandise_class to ANIF;
+
+Grant succeeded.
+
+SQL> grant select on kpi_stg_item_merchandise_colle to ANIF;
+
+Grant succeeded.
+
+SQL> grant select on kpi_stg_item_merchandise_depar to ANIF;
+
+Grant succeeded.
+
+SQL> grant select on kpi_stg_item_merchandise_subcl to ANIF;
+
+Grant succeeded.
+
+SQL> grant select on kpi_stg_items to ANIF;
+
+Grant succeeded.
+
+SQL> grant select on kpi_stg_transactions to ANIF;
+
+Grant succeeded.
+
+SQL> grant select on kpi_stg_transactions_lines to ANIF;
+
+Grant succeeded.
+
+SQL>
