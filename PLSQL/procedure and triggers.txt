@@ -1,0 +1,373 @@
+create or replace procedure sample(s_id IN dummy.ID%TYPE, s_name IN dummy.NAME%TYPE)
+IS
+BEGIN
+insert into dummy values (s_id, s_name);
+dbms_output.put_line('procedure created');
+END;
+/
+
+SQL> create or replace trigger not_drop_table
+before drop on DATABASE
+BEGIN
+RAISE_APPLICATION_ERROR(-200, 'CANNOT DROP');
+END;
+/
+
+
+========================================================================================================
+SQL*Plus: Release 11.2.0.2.0 Production on Mon Dec 6 11:41:43 2021
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> conn pratik
+Enter password:
+Connected.
+SQL> @d:\PLSQL\ex2.sql;
+
+PL/SQL procedure successfully completed.
+
+SQL> set serveroutput on;
+SQL> @d:\PLSQL\ex2.sql;
+x is greater than 10
+300
+
+PL/SQL procedure successfully completed.
+
+SQL> ed d:\PLSQL\ex3.sql;
+
+SQL> ed d:\PLSQL\ex3.sql;
+
+SQL> @d:\PLSQL\ex3.sql;
+1
+2
+3
+4
+5
+
+PL/SQL procedure successfully completed.
+
+SQL> BEGIN
+  2  dbms_output.put_line('Hello!');
+  3  END;
+  4  /
+Hello!
+
+PL/SQL procedure successfully completed.
+
+SQL> create or replace procedure "insertdummy"(id in number, name in varchar(20)) is begin insert into dummy values(id, name);
+  2  END;
+  3  /
+create or replace procedure "insertdummy"(id in number, name in varchar(20)) is begin insert into dummy values(id, name);
+*
+ERROR at line 1:
+ORA-01031: insufficient privileges
+
+
+SQL> conn sys as sysdba
+Enter password:
+Connected.
+SQL> grant create procedure to pratik;
+
+Grant succeeded.
+
+SQL> conn pratik
+Enter password:
+Connected.
+SQL> create table dummy(id number(10) primary key, name varchar(20));
+
+Table created.
+
+SQL> desc dummy
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(10)
+ NAME                                               VARCHAR2(20)
+
+SQL> create or replace procedure "insertdummy"(id in number, name in varchar(20)) is begin insert into dummy values(id, name);
+  2  END;
+  3  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> execute "insertdummy";
+BEGIN "insertdummy"; END;
+
+       *
+ERROR at line 1:
+ORA-06550: line 1, column 8:
+PLS-00905: object PRATIK.insertdummy is invalid
+ORA-06550: line 1, column 8:
+PL/SQL: Statement ignored
+
+
+SQL> create or replace procedure insertdummy(id in number, name in varchar(20)) is begin insert into dummy values(id, name);
+  2  END;
+  3  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> execute insertdummy;
+BEGIN insertdummy; END;
+
+      *
+ERROR at line 1:
+ORA-06550: line 1, column 7:
+PLS-00905: object PRATIK.INSERTDUMMY is invalid
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+
+
+SQL> create or replace procedure sample
+  2  as
+  3  BEGIN
+  4  dbms_output.put_line('sample');
+  5  END;
+  6  /
+
+Procedure created.
+
+SQL> execute sample;
+
+PL/SQL procedure successfully completed.
+
+SQL> set serveroutput on;
+SQL> execute sample;
+sample
+
+PL/SQL procedure successfully completed.
+
+SQL> create or replace procedure sample(x number)
+  2  as
+  3  BEGIN
+  4  dbms_output.put_line(x);
+  5  END;
+  6  /
+
+Procedure created.
+
+SQL> execute sample(10);
+10
+
+PL/SQL procedure successfully completed.
+
+SQL> desc dummy
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                        NOT NULL NUMBER(10)
+ NAME                                               VARCHAR2(20)
+
+SQL> create or replace procedure sample(x number, name varchar(10))
+  2  is
+  3  BEGIN
+  4  insert into dummy values(1, 'Emma');
+  5  END;
+  6  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> create or replace procedure sample(x number, name varchar(10))
+  2  is
+  3  BEGIN
+  4  insert into dummy values(x, name);
+  5  END;
+  6  /
+
+Warning: Procedure created with compilation errors.
+
+SQL> BEGIN
+  2  sample(1, 'Pratik');
+  3  dbms_output.put_line('record inserted');
+  4  END;
+  5  /
+sample(1, 'Pratik');
+*
+ERROR at line 2:
+ORA-06550: line 2, column 1:
+PLS-00905: object PRATIK.SAMPLE is invalid
+ORA-06550: line 2, column 1:
+PL/SQL: Statement ignored
+
+
+SQL> BEGIN
+  2  sample(2,'Pratik');
+  3  dbms_output.put_line('record inserted');
+  4  END;
+  5  /
+sample(2,'Pratik');
+*
+ERROR at line 2:
+ORA-06550: line 2, column 1:
+PLS-00905: object PRATIK.SAMPLE is invalid
+ORA-06550: line 2, column 1:
+PL/SQL: Statement ignored
+
+
+SQL> create or replace procedure sample(s_id IN dummy.ID%TYPE, s_name IN dummy.NAME%TYPE)
+  2  IS
+  3  BEGIN
+  4  insert into dummy values (s_id, s_name);
+  5  dbms_output.put_line('procedure created');
+  6  END;
+  7  /
+
+Procedure created.
+
+SQL> execute sample;
+BEGIN sample; END;
+
+      *
+ERROR at line 1:
+ORA-06550: line 1, column 7:
+PLS-00306: wrong number or types of arguments in call to 'SAMPLE'
+ORA-06550: line 1, column 7:
+PL/SQL: Statement ignored
+
+
+SQL> execute sample(200, 'abc');
+procedure created
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from dummy;
+
+        ID NAME
+---------- --------------------
+       200 abc
+
+SQL> cursor c_dummy IS select id, name from dummy;
+SP2-0734: unknown command beginning "cursor c_d..." - rest of line ignored.
+SQL> CURSOR c_dummy IS select id, name from dummy;
+SP2-0734: unknown command beginning "CURSOR c_d..." - rest of line ignored.
+SQL>
+SQL>
+SQL> DECLARE
+  2  CURSOR c_dummy IS select id, name from dummy;
+  3  BEGIN
+  4  OPEN c_dummy;
+  5  END;
+  6  /
+
+PL/SQL procedure successfully completed.
+
+SQL> create or replace trigger not_drop_table
+  2  before drop on table
+  3  BEGIN
+  4  RAISE_APPLICATION_ERROR(-200, 'CANNOT DROP');
+  5  END;
+  6  /
+before drop on table
+               *
+ERROR at line 2:
+ORA-00903: invalid table name
+
+
+SQL> create or replace trigger not_drop_table
+  2  before drop on DATABASE
+  3  BEGIN
+  4  RAISE_APPLICATION_ERROR(-200, 'CANNOT DROP');
+  5  END;
+  6  /
+before drop on DATABASE
+               *
+ERROR at line 2:
+ORA-01031: insufficient privileges
+
+
+SQL> conn sys as sysdba
+Enter password:
+Connected.
+SQL> grant create trigger to pratik;
+
+Grant succeeded.
+
+SQL> conn pratik
+Enter password:
+Connected.
+SQL> create or replace trigger not_drop_table
+  2  before drop on DATABASE
+  3  BEGIN
+  4  RAISE_APPLICATION_ERROR(-200, 'CANNOT DROP');
+  5  END;
+  6  /
+before drop on DATABASE
+               *
+ERROR at line 2:
+ORA-01031: insufficient privileges
+
+
+SQL> conn sys as sysdba
+Enter password:
+Connected.
+SQL> create or replace trigger not_drop_table
+  2  before drop on DATABASE
+  3  BEGIN
+  4  RAISE_APPLICATION_ERROR(-200, 'CANNOT DROP');
+  5  END;
+  6  /
+
+Trigger created.
+
+SQL> select count(*) from cat;
+
+  COUNT(*)
+----------
+      4799
+
+SQL> grant drop table to pratik;
+grant drop table to pratik
+      *
+ERROR at line 1:
+ORA-00990: missing or invalid privilege
+
+
+SQL> grant drop any table to pratik;
+
+Grant succeeded.
+
+SQL> conn pratik
+Enter password:
+Connected.
+SQL> create or replace trigger not_drop_table
+  2  before drop on DATABASE
+  3  BEGIN
+  4  RAISE_APPLICATION_ERROR(-200, 'CANNOT DROP');
+  5  END;
+  6  /
+before drop on DATABASE
+               *
+ERROR at line 2:
+ORA-01031: insufficient privileges
+
+
+SQL> conn sys as sysdba
+Enter password:
+Connected.
+SQL> grant drop any database to pratik;
+grant drop any database to pratik
+      *
+ERROR at line 1:
+ORA-00990: missing or invalid privilege
+
+
+SQL> grant drop any table to pratik;
+
+Grant succeeded.
+
+SQL> show user
+USER is "SYS"
+
+SQL> drop table child;;
+drop table child;
+                *
+ERROR at line 1:
+ORA-00911: invalid character
+
+
+SQL> drop table child;
+drop table child
+*
+ERROR at line 1:
+ORA-00604: error occurred at recursive SQL level 1
+ORA-21000: error number argument to raise_application_error of -200 is out of
+range
+ORA-06512: at line 2
