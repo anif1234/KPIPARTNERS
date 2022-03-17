@@ -1,0 +1,10 @@
+
+
+1. remove the records where the continent column having blanks
+2. replace all the NEGATIVE and NULL valued records with 0 
+3. display the continent,positivity rate where the strigency index is maximum
+4. which continent and location having max of deaths and male_smokers 
+5. which year having the highest number of deaths
+6. which location having lowest recovery rate for each continent
+7. Countries with max cardiovasc_death_rate and diabetes_prevalence greater than 10
+8. which location has highest number of vaccinated people in each continent 
